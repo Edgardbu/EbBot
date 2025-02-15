@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Allowed Users - Eb bot{% endblock %}
+
+{% block extra_head %}
+<style>
+  .card-header {
+    background-color: rgb(45, 39, 39);
+    color: #858796;
+  }
+
+  .table-container {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+  }
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+  }
+
+  .table th, .table td {
+    color: white;
+  }
+
+  .table thead th {
+    background-color: rgb(45, 39, 39);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .table tbody tr {
+    transition: background-color 0.3s ease;
+  }
+
+  .table tbody tr:hover {
+    background-color: rgb(50, 50, 50);
+  }
+
+  .table tbody tr:last-child td {
+    border-bottom: none;
+  }
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 1%; margin-bottom: 1%;">
+  <div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-white mb-0">Allowed Users</h3>
+  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0">Users Allowed to Use the Bot</h6>
+    </div>
+    <div class="card-body">
+      {% if allowed_users %}
+      <div class="table-container">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for user_id in allowed_users %}
+          <tr>
+            <td>{{ user_id }}</td>
+            <td style="width:100px">
+              <form method="POST" style="display: inline;">
+                <input type="hidden" name="action" value="remove_user">
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="text-muted">No users are currently allowed to use the bot.</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0">Add New User</h6>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        <input type="hidden" name="action" value="add_user">
+        <div class="form-group mb-3">
+          <label for="user_id" class="form-label">User ID</label>
+          <input type="text" class="form-control" id="user_id" name="user_id" placeholder="Enter Discord User ID" required>
+        </div>
+        <button type="submit" class="btn btn-success">Add User</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

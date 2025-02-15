@@ -1,0 +1,167 @@
+<!-- languages.html -->
+{% extends 'base.html' %}
+
+{% block title %}Languages - Eb bot{% endblock %}
+
+{% block extra_head %}
+<style>
+  .config-header {
+    color: rgb(200, 200, 200);
+  }
+  .config-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .config-link:hover {
+    text-decoration: none;
+  }
+  .accordion-button {
+    background: rgb(45,39,39);
+    color: rgb(200, 200, 200);
+  }
+  .accordion-button:not(.collapsed) {
+    background: rgb(49,52,62);
+    color: rgb(200, 200, 200);
+  }
+  .accordion-body {
+    background: rgb(49,52,62);
+  }
+
+  .alert-hide {
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(-10px);
+  }
+
+  #bug-warning {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-close {
+    font-size: 1.5rem;
+    height: auto;
+    margin: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- No known bug for now
+<div class="alert alert-warning fade show d-flex align-items-center" role="alert" id="bug-warning">
+  <i class="fas fa-exclamation-triangle me-2"></i>
+  <span>Known bug: you will need to reload the page for the editor close functionality to work properly!</span>
+  <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="hideWarning()" style="border: none; margin: 0;"></button>
+</div>
+-->
+  <div class="container-fluid" style="margin-top: 1%; margin-bottom: 1%;">
+  <div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark mb-0" style="color: rgb(133, 135, 150)">Languages</h3>
+  </div>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info">{{ message }}</div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  <form method="POST">
+    <input type="hidden" name="action" value="save">
+    <div class="accordion" id="accordionCommands">
+      {% for command_folder, files in language_files.items() %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="command_heading_{{ loop.index }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#command_collapse_{{ loop.index }}" aria-expanded="false" aria-controls="command_collapse_{{ loop.index }}">
+            {{ command_folder }}
+          </button>
+        </h2>
+        <div id="command_collapse_{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="command_heading_{{ loop.index }}" data-bs-parent="#accordionCommands">
+          <div class="accordion-body">
+            <div class="accordion" id="accordionLanguages_{{ loop.index }}">
+              {% for filename, content in files.items() %}
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="lang_heading_{{ loop.index }}_{{ loop.index0 }}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lang_collapse_{{ loop.index }}_{{ loop.index0 }}" aria-expanded="false" aria-controls="lang_collapse_{{ loop.index }}_{{ loop.index0 }}">
+                    {{ filename }}
+                  </button>
+                </h2>
+                <div id="lang_collapse_{{ loop.index }}_{{ loop.index0 }}" class="accordion-collapse collapse" aria-labelledby="lang_heading_{{ loop.index }}_{{ loop.index0 }}" data-bs-parent="#accordionLanguages_{{ loop.index }}">
+                  <div class="accordion-body">
+                    <div class="form-group">
+                      <label for="lang_{{ command_folder }}/{{ filename }}" class="form-label text-white">{{ filename }}</label>
+                      <textarea class="form-control lang-textarea" id="lang_{{ command_folder }}/{{ filename }}" name="lang_{{ command_folder }}/{{ filename }}" rows="10" style="background: rgb(49,52,62); color: white;">{{ content }}</textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="copyLanguage('{{ command_folder }}/{{ filename }}')">Copy template to another lang</button>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success">Save Languages</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal for duplication -->
+<div class="modal fade" id="copyModal" tabindex="-1" aria-labelledby="copyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background: rgb(49,52,62); color: white;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="copyModalLabel">Copy Language File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none; color: white;"></button>
+      </div>
+      <div class="modal-body">
+        <form id="copyForm" method="POST">
+          <input type="hidden" name="action" value="copy">
+          <input type="hidden" name="original_file_key" id="original_file_key">
+          <div class="mb-3">
+            <label for="new_language_code" class="form-label">New Language Code</label>
+            <input type="text" class="form-control" id="new_language_code" name="new_language_code" placeholder="Enter new language code, e.g., ru">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="background: rgb(49,52,62);">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" form="copyForm" class="btn btn-primary">Copy template to another lang</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function initializeLanguages() {
+    var accordionElements = document.querySelectorAll('.accordion-collapse');
+    accordionElements.forEach(function (collapseEl) {
+      bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+    });
+
+    window.copyLanguage = function(fileKey) {
+      document.getElementById('original_file_key').value = fileKey;
+      document.getElementById('new_language_code').value = '';
+      var copyModal = new bootstrap.Modal(document.getElementById('copyModal'));
+      copyModal.show();
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeLanguages);
+  document.addEventListener('turbo:render', initializeLanguages);
+
+  function hideWarning() {
+    const warningAlert = document.getElementById('bug-warning');
+    if (warningAlert) {
+      warningAlert.classList.add('alert-hide');
+      setTimeout(() => {
+        warningAlert.remove();
+      }, 500);
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" style="scrollbar-color: #666666 #29272A;">
+<head>
+    <!-- Head content -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Eb bot{% endblock %}</title>
+    <!-- Include your CSS and other head elements -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    {{ turbo() | safe }}
+    {% block extra_head %}{% endblock %}
+</head>
+<body id="page-top" style="--bs-body-bg: rgb(33,30,35);">
+<div id="wrapper">
+    {% include 'sidebar.html' %}
+    <div class="d-flex flex-column" id="content-wrapper" style="background: rgb(33,30,35); color: rgb(33,30,35);">
+        <div id="content">
+            <div class="container-fluid" style="margin-top: 1%; margin-bottom: 1%;">
+                {% block content %}
+                <!-- Page-specific content will go here -->
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <!-- Scroll to Top Button-->
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/script.min.js"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

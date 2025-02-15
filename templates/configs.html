@@ -1,0 +1,117 @@
+<!-- configs.html -->
+{% extends 'base.html' %}
+
+{% block title %}Configurations - Eb bot{% endblock %}
+
+{% block extra_head %}
+<style>
+    .config-header {
+        color: rgb(200, 200, 200);
+    }
+    .config-link {
+        text-decoration: none;
+        color: inherit;
+    }
+    .config-link:hover {
+        text-decoration: none;
+    }
+    .accordion-button {
+        background: rgb(45,39,39);
+        color: rgb(200, 200, 200);
+    }
+    .accordion-button:not(.collapsed) {
+        background: rgb(49,52,62);
+        color: rgb(200, 200, 200);
+    }
+    .accordion-body {
+        background: rgb(49,52,62);
+    }
+
+    .alert-hide {
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY(-10px);
+    }
+
+    #bug-warning {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-close {
+        font-size: 1.5rem;
+        height: auto;
+        margin: 0;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- No known bug for now
+<div class="alert alert-warning fade show d-flex align-items-center" role="alert" id="bug-warning">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <span>Known bug: you will need to reload the page for the editor close functionality to work properly!</span>
+    <button type="button" class="btn-close ms-auto" aria-label="Close" onclick="hideWarning()" style="border: none; margin: 0;"></button>
+</div> -->
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0" style="color: rgb(133, 135, 150)">Configurations</h3>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <div class="accordion" id="accordionConfigs">
+            {% for filename, content in configs_data.items() %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading_{{ loop.index }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ loop.index }}" aria-expanded="false" aria-controls="collapse_{{ loop.index }}">
+                        {{ filename }}
+                    </button>
+                </h2>
+                <div id="collapse_{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading_{{ loop.index }}" data-bs-parent="#accordionConfigs">
+                    <div class="accordion-body">
+                        <div class="form-group">
+                            <label for="config_{{ filename }}" class="form-label text-white">{{ filename }}</label>
+                            <textarea class="form-control config-textarea" id="config_{{ filename }}" name="config_{{ filename }}" rows="10" style="background: rgb(49,52,62); color: white;">{{ content }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Save Configurations</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // TODO: fix issue with js not fully working after turbo navigation
+    function initializeConfigs() {
+        var accordionElements = document.querySelectorAll('.accordion-collapse');
+        accordionElements.forEach(function (collapseEl) {
+            bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', initializeConfigs);
+    document.addEventListener('turbo:render', initializeConfigs);
+
+    function hideWarning() {
+        const warningAlert = document.getElementById('bug-warning');
+        if (warningAlert) {
+            warningAlert.classList.add('alert-hide');
+            setTimeout(() => {
+                warningAlert.remove();
+            }, 500);
+        }
+    }
+</script>
+{% endblock %}

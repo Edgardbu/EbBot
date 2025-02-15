@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" style="scrollbar-color: #666666 #29272A;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Login - Eb bot</title>
+    <meta name="description" content="Bot management panel">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    {{ turbo() | safe }}
+</head>
+
+<body class="bg-gradient-primary" style="background: rgb(33,30,35);">
+    <div class="p-5" style="width: 40%;margin: 0;position: absolute;top: 50%;left: 50%;transform: translate(-50%) translateY(-80%);">
+        <div class="text-center">
+            <h4 id="title_text" class="text-dark mb-4"><span style="color: rgb(201, 201, 201);">{{title}}</span></h4>
+        </div>
+        <div id="description">
+            <p style="text-align: center;">{{body| safe}}</p>
+        </div>
+        <form class="user" method="{{method}}" id="main_from">
+            <div class="mb-3" id="input_form"><input class="form-control form-control-user" type="{{type}}" id="otp" style="background: rgb(49,52,62);text-align: center;" placeholder="{{placeholder}}" name="{{input_name}}"></div>
+            <div class="button-container">
+                <button name="next" id="next" class="btn btn-primary d-block btn-user w-100" type="submit" style="background: rgb(14,15,18);border-width: 1px;border-color: rgb(0,0,0);">{{btn_text}}</button>
+            </div>
+        </form>
+        <p style="text-align: center;font-size: 10px;"><br>{{footer}}<br><br></p>
+    </div>
+
+    {% if show_otp_popup %}
+    <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="GET">
+                <div class="modal-content" style="background: rgb(33,30,35);">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="otpModalLabel" style="color: rgb(201, 201, 201);">Enter OTP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: white; font-size: 1.2rem; background: none; border: none; margin-top: -4%;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="modal-error"></div>
+                    <div class="modal-body">
+                        <input class="form-control" type="password" name="otp" placeholder="Enter OTP here" style="background: rgb(49,52,62);color: white;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+                    </div>
+
+                    <small style="color: #858796; text-align: center;">NOTE: OTP is valid for 30 seconds only</small>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+<style>
+    {{custom_css | safe}}
+</style>
+
+<script>
+    {{custom_js | safe}}
+</script>
+</html>

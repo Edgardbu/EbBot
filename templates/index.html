@@ -1,0 +1,182 @@
+<!-- index.html -->
+{% extends 'base.html' %}
+{% block title %}Dashboard - Eb bot{% endblock %}
+
+{% block extra_head %}
+<!-- Include any extra CSS or JS files specific to this page -->
+
+{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark mb-0" style="color: rgb(133, 135, 150)">Dashboard</h3>
+</div>
+<div class="row" id="btn&error">
+    <div class="col-xxl-2" style="width: 208.328px; margin-bottom: 1%;">
+        <a class="btn btn-primary {{ 'disabled' if bot_running else '' }} btn-sm d-none d-sm-inline-block" role="button" onclick="startBot()" id="start-btn" style="background: rgb(47,137,32); border-color: rgb(51,136,44); width: 40%;">
+            <i class="fas fa-play fa-sm text-white-50"></i> Start
+        </a>
+        <a class="btn btn-primary btn-sm {{ '' if bot_running else 'disabled' }} d-none d-sm-inline-block" role="button" id="stop-btn" style="background: rgb(137,38,32); margin-left: 5%; width: 40%; border-color: rgb(137,38,32);" onclick="stopBot()">
+            <i class="fas fa-stop fa-sm text-white-50"></i> Stop
+        </a>
+    </div>
+</div>
+<div class="row">
+    <!-- First Card -->
+    <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow border-start-primary py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col me-2">
+                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>BOT</span></div>
+                        <div class="text-dark fw-bold h5 mb-0"><span id="bot_name">UPDATING...</span></div>
+                    </div>
+                    <div class="col-auto"><i class="fas fa-server fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Second Card -->
+    <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow border-start-success py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col me-2">
+                        <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>UPTIME</span></div>
+                        <div class="text-dark fw-bold h5 mb-0"><span id="bot_uptime">00:00:00:00</span></div>
+                    </div>
+                    <div class="col-auto"><i class="fas fa-clock fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Third Card -->
+    <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow border-start-info py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col me-2">
+                        <div class="text-uppercase text-info fw-bold text-xs mb-1"><span id="ram_usege_title">RAM usage</span></div>
+                        <div class="row g-0 align-items-center">
+                            <div class="col-auto">
+                                <div class="text-dark fw-bold h5 mb-0 me-3"><span id="ram_usage_percentage_number">0%</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="progress progress-sm" style="background: rgb(45,39,39);">
+                                    <div class="progress-bar bg-info" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="ram_usage_percentage_bar" style="width: 0%;"><span class="visually-hidden">0%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto"><i class="fas fa-memory fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fourth Card -->
+    <div class="col-md-6 col-xl-3 mb-4">
+        <div class="card shadow border-start-warning py-2">
+            <div class="card-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col me-2">
+                        <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span style="color: rgb(246,62,95);">ERRORS</span></div>
+                        <div class="text-dark fw-bold h5 mb-0" id="errors_number"><span id="error_count">0</span></div>
+                    </div>
+                    <div class="col-auto"><i class="fa fa-exclamation-circle fa-2x text-gray-300"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Console Card -->
+<div class="card shadow mb-4" id="console">
+    <div class="card-header d-flex justify-content-between align-items-center" id="console-title" style="background: rgb(45,39,39);">
+        <h6 class="text-primary fw-bold m-0">Console</h6>
+        <div class="dropdown no-arrow">
+            <button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">
+                <i class="fas fa-ellipsis-v text-gray-400"></i>
+            </button>
+            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                <p class="text-center dropdown-header">Options</p>
+                <a class="dropdown-item" href="#" onclick="clearConsole()">Clear Console</a>
+                <!-- Add more options if needed -->
+            </div>
+        </div>
+    </div>
+    <div class="card-body" id="console-content">
+        <div class="console-body">
+            <pre id="console-content-pre">{{ ("\n".join(console_content) if console_content is not none else "") | safe }}</pre>
+        </div>
+    </div>
+    <div class="card-footer text-center" id="console-footer" style="background: rgb(45,39,39);">
+        <input type="checkbox" id="lock-console-checkbox" class="form-check-input" checked>
+        <label for="lock-console-checkbox" class="form-check-label text-white">Lock Console Down</label>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function initializeDashboard() {
+        function stopBot() {
+            fetch('/bot_stop', {
+                method: 'POST'
+            });
+        }
+
+        function startBot() {
+            fetch('/bot_start', {
+                method: 'POST'
+            });
+        }
+
+        const consoleContentPre = document.getElementsByClassName('console-body')[0];
+        const lockConsoleCheckbox = document.getElementById('lock-console-checkbox');
+
+        function scrollToBottom() {
+            consoleContentPre.scrollTop = consoleContentPre.scrollHeight - 5;
+        }
+
+        document.addEventListener('turbo:before-stream-render', (event) => {
+            if (lockConsoleCheckbox != null && lockConsoleCheckbox.checked) {
+                scrollToBottom();
+            }
+        });
+
+        function clearConsole() {
+            document.getElementById('console-content-pre').innerHTML = '';
+        }
+    }
+
+    document.addEventListener('turbo:load', initializeDashboard); // for Turbo streams
+
+    function stopBot() {
+        fetch('/bot_stop', {
+            method: 'POST'
+        });
+    }
+
+    function startBot() {
+        fetch('/bot_start', {
+            method: 'POST'
+        });
+    }
+
+    const consoleContentPre = document.getElementsByClassName('console-body')[0];
+    const lockConsoleCheckbox = document.getElementById('lock-console-checkbox');
+
+    function scrollToBottom() {
+        consoleContentPre.scrollTop = consoleContentPre.scrollHeight - 5;
+    }
+
+    document.addEventListener('turbo:before-stream-render', (event) => {
+        if (lockConsoleCheckbox.checked) {
+            scrollToBottom();
+        }
+    });
+
+    function clearConsole() {
+        document.getElementById('console-content-pre').innerHTML = '';
+    }
+</script>
+{% endblock %}
