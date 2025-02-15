@@ -1,0 +1,19 @@
+ip:
+  ssl: false  # Set to true if your FiveM server uses SSL | https:// = true, http:// = false
+  server_ip: "ip/domain:30120"   # Replace with your actual FiveM server IP:port (default port is 30120)
+  players_endpoint: "players.json"   # https://ip:port/players.json
+  info_endpoint: "info.json"   # https://ip:port/info.json
+  embed:
+    color: "#FF5733"
+
+# NOTE: for now it duped, but I will to remove it in the future, for now you must fill the same data in both sections! (embed color can be different)
+player_list:
+  ssl: false  # Set to true if your FiveM server uses SSL | https:// = true, http:// = false
+  server_ip: "ip/domain:30120"   # Replace with your actual FiveM server IP:port (default port is 30120)
+  players_endpoint: "players.json"   # https://ip:port/players.json
+  info_endpoint: "info.json"   # https://ip:port/info.json
+  embed:
+    color: "#FF5733"
+  channel_id: 111111111111111111  # Channel ID where the bot player list located
+  message_id: 222222222222222222  # Message ID of the player list message
+  update_interval: 60  # Update interval in seconds (default is 60 seconds)

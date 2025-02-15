@@ -1,0 +1,14 @@
+{
+  "welcome": {
+    "title": {
+      "text": ""
+    },
+    "author": {
+      "name": "{{server.name}}"
+    },
+    "description": "{{user}} ברוך הבא! אנוחנו מקווים שתהנה כאן!",
+    "footer": {
+      "text": "{{server.name}} | {{server.memberCount}} חברים"
+    }
+  }
+}

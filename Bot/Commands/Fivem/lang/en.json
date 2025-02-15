@@ -1,0 +1,16 @@
+{
+  "ip": {
+    "server_title": "FiveM Server Info",
+    "error_fetching": "Could not fetch server data",
+    "no_players_online": "No players online"
+  },
+  "player_list": {
+    "title": "Players Online",
+    "no_players_online": "No players online",
+    "placeholder": "This is a placeholder, should disappear in a few moments depending on the `update_interval` in the config",
+    "not_administrator": "You need to be an administrator to use this command",
+    "command_description": "Shows the data to put inside the config file, and sends send placeholder message",
+    "command_embed_title": "Edit the config file please, can be done with the web interface or by editing the file directly (Fivem.yml)",
+    "command_embed_description": "channel_id: `{{ch_id}}`\nmessage_id: `{{msg_id}}`"
+  }
+}

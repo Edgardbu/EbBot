@@ -1,0 +1,108 @@
+{
+  "tictactoe": {
+    "command_description": "שחק משחק איקס עיגול",
+    "friend_command_description": "שחק משחק איקס עיגול עם חבר",
+    "wrong_turn": "זה לא תורך!",
+    "not_allowed": "אינך משתתף במשחק זה!",
+    "tie": "אף אחד",
+    "friend": {
+      "embed_before_game": {
+        "title": "איקס עיגול",
+        "description": "אנא המתן לשחקן השני להצטרף למשחק.",
+        "footer": "התבקש על ידי {{user.name}}",
+        "join_button": "הצטרף למשחק!",
+        "play_with_yourself": "אינך יכול לשחק עם עצמך!"
+      },
+      "embed_in_game": {
+        "description": "התור של {{c_player}}!\n\n{{player1}} נגד {{player2}}"
+      },
+      "embed_after_game": {
+        "description": "{{winner}} ניצח במשחק!"
+      }
+    }
+  },
+  "minesweeper":{
+    "command_description": "שחק משחק שולה מוקשים",
+    "play_command_description": "התחל משחק שולה מוקשים",
+    "embed": {
+      "title": "משחק שולה מוקשים",
+      "description": "לחץ על הכפתורים כדי לחשוף תאים.\nהשתמש בכפתור 'מצב' כדי להחליף בין מצב חשיפה למצב סימון.",
+      "footer": "המשחק הותחל על ידי {{user.name}}"
+    },
+    "not_your_game": "זה לא משחק שלך!",
+    "game_over": "המשחק נגמר!",
+    "already_revealed": "תא זה כבר נחשף!",
+    "already_flagged": "תא זה כבר מסומן!",
+    "game_over_embed": {
+      "title": "המשחק נגמר!",
+      "description": "לחצת על מוקש! המשחק נגמר!"
+    },
+    "win_embed": {
+      "title": "ברכות!",
+      "description": "הצלחת לנקות את שדה המוקשים!"
+    },
+    "flag_mode": "מצב: דגל",
+    "reveal_mode": "מצב: לחשוף"
+  },
+  "battleship":{
+    "command_description": "שחק משחק צוללות",
+    "play_command_description": "התחל משחק צוללות",
+    "embed_before_game": {
+      "title": "משחק צוללות",
+      "description": "ממתין לשחקן נוסף להצטרף...",
+      "footer": "המשחק הותחל על ידי {{user.name}}",
+      "join_button": "הצטרף למשחק",
+      "play_with_yourself": "אתה לא יכול לשחק נגד עצמך!",
+      "game_full": "המשחק כבר מלא."
+    },
+    "embed_in_game": {
+      "title": "משחק צוללות",
+      "description": "המשחק התחיל! עכשיו תורו של {{c_player}}.\n\nשחקנים:\n{{player1}}\n{{player2}}",
+      "your_turn_footer": "זה התור שלך!",
+      "opponent_turn_footer": "ממתין לתור המתחרה שלך..."
+    },
+    "your_board_title": "הלוח שלך",
+    "your_attack_board_title": "לוח ההתקפה שלך",
+    "game_info": "**מתחרה:** {opponent}\n**ספינות שנותרו:** {ships_left}\n**התקפות אחרונות:**\n{logs}",
+    "no_attacks_yet": "לא בוצעו התקפות עדיין.",
+    "select_row_prompt": "בחר שורה:",
+    "confirm_attack_prompt": "התקפה על מיקום {col}{row}? אשר את הפעולה.",
+    "confirm_button_label": "אשר התקפה",
+    "cancel_button_label": "בטל",
+    "attack_hit": "פגעת בספינה ב-{col}{row}!",
+    "attack_miss": "התקפת ב-{col}{row} והחמצת.",
+    "attack_sunk": "הטבעת את הספינה {ship} של המתחרה שלך ב-{col}{row}!",
+    "attack_cancelled": "ההתקפה בוטלה.",
+    "already_attacked": "כבר תקפת את המיקום הזה.",
+    "game_over_title": "המשחק נגמר",
+    "game_over_description": "{winner} ניצח את המשחק!",
+    "not_your_turn": "זה לא התור שלך!"
+  },
+  "mastermind": {
+    "command_description": "שחק מאסטרמיינד נגד הבוט.",
+    "play_command_description": "התחל משחק מאסטרמיינד חדש.",
+    "embed_title": "משחק מאסטרמיינד",
+    "embed_description": "ברוך הבא למאסטרמיינד!\n\nנסה לנחש את **הקוד באורך {{code_length}} צבעים** ב-**{{max_attempts}}** נסיונות.\nלחץ על כפתורי הצבעים כדי לבחור ניחוש, ואז שלח.\nאם טעית בצבע, השתמש בכפתור להסרת האחרון.\n\nצבעים זמינים:\n{{color_list}}",
+    "embed_footer": "המשחק התחיל על ידי {{user.name}}",
+    "game_progress_title": "התקדמות המשחק",
+    "attempts_text": "נסיונות: **{{current}} / {{max}}**",
+    "attempt_history": "**ניסיון {{num}}:** {{guess}} => {{exact}} נכונים, {{color}} בצבע נכון אך במקום שגוי",
+    "solved_message": "פתרת את הקוד בהצלחה!",
+    "game_over_message": "**הגעת למקסימום ניסיונות!** הקוד הסודי היה: {{secret_code}}.",
+    "select_next_guess": "בחר את הניחוש הבא שלך ({{code_length}} צבעים) ולחץ **לבדוק את השימוש!**",
+    "current_guess": "ניחוש נוכחי",
+    "no_colors_selected": "לא נבחרו צבעים עדיין.",
+    "not_your_game": "זה לא המשחק שלך!",
+    "max_colors_reached": "כבר בחרת {{code_length}} צבעים! הסר צבע או שלח את הניחוש.",
+    "no_colors_to_remove": "אין לך צבעים להסרה!",
+    "confirm_button_label": "לבדוק את הניחוש",
+    "remove_button_label": "למחוק את הצבע האחרון",
+    "already_over": "המשחק כבר הסתיים!",
+    "guess_incomplete": "אתה צריך בדיוק {{code_length}} צבעים לניחוש!",
+    "attack_hit": "פגעת בצבע אך במיקום שגוי!",
+    "attack_exact": "פגעת בצבע הנכון ובמקום הנכון!",
+    "attack_miss": "אין התאמות לניחוש הזה.",
+    "attack_cancelled": "הניחוש בוטל.",
+    "game_over": "המשחק הסתיים!"
+  }
+}

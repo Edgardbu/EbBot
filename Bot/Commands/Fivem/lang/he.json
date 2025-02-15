@@ -1,0 +1,16 @@
+{
+  "ip": {
+    "server_title": "מידע על שרת FiveM",
+    "error_fetching": "לא ניתן היה לקבל את נתוני השרת",
+    "no_players_online": "אין שחקנים מחוברים"
+  },
+  "player_list": {
+    "title": "שחקנים מחוברים",
+    "no_players_online": "אין שחקנים מחוברים",
+    "placeholder": "זוהי הודעה זמנית, היא תעלם לאחר מספר רגעים בהתאם ל-`update_interval` בקונפיג",
+    "not_administrator": "עליך להיות בעל גישות administrator כדי להשתמש בפקודה זו",
+    "command_description": "מכין את הנתונים שיש לשים בתוך קובץ הקונפיג, ושולח הודעה זמנית",
+    "command_embed_title": "ערוך את קובץ הקונפיג בבקשה, ניתן לעשות זאת דרך ממשק האינטרנט או על ידי עריכת הקובץ ישירות (Fivem.yml)",
+    "command_embed_description": "channel_id: `{{ch_id}}`\nmessage_id: `{{msg_id}}`"
+  }
+}

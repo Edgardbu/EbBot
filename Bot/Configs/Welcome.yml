@@ -1,0 +1,14 @@
+welcome:
+  channel-id: 111111111111111111 # Channel ID where the welcome message will be sent
+  embed:
+    title:
+      url: ''
+    author:
+      url: ''
+      icon_url: '{{server.icon}}'
+    thumbnail_url: '{{user.icon}}'
+    image_url: ''
+    color: '#00A4D1'
+    footer:
+      icon_url: ''
+      timestamp: true

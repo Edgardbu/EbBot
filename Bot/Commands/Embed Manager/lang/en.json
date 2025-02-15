@@ -1,0 +1,24 @@
+{
+  "embed manager": {
+    "embed_manager_commands_description": "Those commands are used to manage the button role message.",
+    "setup_command_description": "This command will setup the button role message for the server.",
+    "embed_title_placeholder": "Button Role",
+    "embed_description_placeholder": "This is placeholder for the button role message. you can edit this message to your liking.",
+    "edit_embed_too_many_args": "You provided too many arguments. Please provide only the link from https://discohook.org",
+    "edit_embed_no_args": "You didn't provide any link. Please provide the link from https://discohook.org",
+    "edit_embed_invalid_url": "The provided URL is invalid. Please provide a valid URL from https://discohook.org and make sure to use the short URL can be obtained by clicking the 'Share Message' button.",
+    "no_permission_message": "You do not have permission to use this command! this message will be deleted in 5 seconds",
+    "no_permission_ephemeral": "You do not have permission to use this command!",
+    "button_commands_description": "Those commands are used to manage the buttons and buttons role in a message.",
+    "add_command_description": "This command will add a button to the message.",
+    "select_message": "Please reply with `*select` to the message/embed you want to add the button to.",
+    "emoji_not_found": "The provided emoji is not found in the server. Please try again and provide a valid emoji.",
+    "button_existing": "you already have a button that linked to that role. Please try again and provide a different role.",
+    "how_to_setup": "Please open https://discohook.org and create a message/embed that you want to use. After that, click the 'Share Message' button and copy the link. \nYou can change the embed by replying to the embed with `*edit embed <link you copied>`\n\n### **important:** make sure to use the short URL can be obtained by clicking the 'Share Message' button.\n\n\nThen use the {{commandping}} command to add button to the message/embed.",
+    "role_added": "You just got the role {{role}}",
+    "role_removed": "You just removed the role {{role}}",
+    "missing_permission": "I don't have permission to give that role. Please make sure I have the permission to give that role and that my permission is higher than the role you want to give.",
+    "role_already_added": "You already have the role {{role}}",
+    "error_occurred": "An error occurred while trying to give you the role. Please report this to the server owner."
+  }
+}

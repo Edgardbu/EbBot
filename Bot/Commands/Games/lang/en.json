@@ -1,0 +1,106 @@
+{
+  "tictactoe": {
+    "command_description": "Play a game of Tic Tac Toe",
+    "friend_command_description": "Play a game of Tic Tac Toe with a friend",
+    "wrong_turn": "It's not your turn!",
+    "not_allowed": "You're not a player in this game!",
+    "tie": "Nobody",
+    "friend": {
+      "embed_before_game": {
+        "title": "Tic Tac Toe",
+        "description": "Please wait for the other player to join the game.",
+        "footer": "Requested by {{user.name}}",
+        "join_button": "Join to the game!",
+        "play_with_yourself": "You can't play with yourself!"
+      },
+      "embed_in_game": {
+        "description": "It's {{c_player}} turn!\n\n{{player1}}vs{{player2}}"
+      },
+      "embed_after_game": {
+        "description": "{{winner}} won the game!"
+      }
+    }
+  },
+  "minesweeper":{
+    "command_description": "Play Minesweeper game",
+    "play_command_description": "Start a Minesweeper game",
+    "embed": {
+      "title": "Minesweeper Game",
+      "description": "Click on the buttons to reveal cells.\nUse the 'Mode' button to switch between Reveal and Flag modes.",
+      "footer": "Game started by {{user.name}}"
+    },
+    "not_your_turn": "It's not your turn!",
+    "game_over": "The game is over!",
+    "already_revealed": "This cell is already revealed!",
+    "already_flagged": "This cell is already flagged!",
+    "game_over_embed": {
+      "title": "Game Over!",
+      "description": "You clicked on a bomb! Game over!"
+    },
+    "win_embed": {
+      "title": "Congratulations!",
+      "description": "You have successfully cleared the minefield!"
+    },
+    "flag_mode": "Mode: Flag",
+    "reveal_mode": "Mode: Reveal"
+  },
+  "battleship": {
+    "command_description": "Play Battleship game",
+    "play_command_description": "Start a Battleship game",
+    "embed": {
+      "title": "Battleship Game",
+      "waiting_description": "Waiting for another player to join...",
+      "in_game_description": "Game started! It's {player}'s turn.",
+      "your_board_title": "Your Board",
+      "game_info": "**Opponent:** {opponent}\n**Ships Remaining:** {ships_left}\n**Recent Attacks:**\n{logs}",
+      "no_attacks_yet": "No attacks have been made yet.",
+      "your_turn_footer": "It's your turn!",
+      "opponent_turn_footer": "Waiting for your opponent's move...",
+      "game_started_footer": "Game has started.",
+      "footer": "Game started by {{user.name}}"
+    },
+    "join_button_label": "Join Game",
+    "cannot_join_own_game": "You cannot join your own game.",
+    "select_row_prompt": "Select a row:",
+    "confirm_attack_prompt": "Attack position {col}{row}? Confirm your action.",
+    "confirm_button_label": "Confirm Attack",
+    "cancel_button_label": "Cancel",
+    "attack_hit": "You hit a ship at {col}{row}!",
+    "attack_miss": "You missed at {col}{row}.",
+    "attack_sunk": "You sunk your opponent's {ship} at {col}{row}!",
+    "attack_cancelled": "Attack cancelled.",
+    "already_attacked": "You have already attacked this position.",
+    "game_over_title": "Game Over",
+    "game_over_description": "{winner} has won the game!",
+    "game_info_title": "Game Information",
+    "game_over_embed_title": "Game Over!",
+    "game_over_embed_description": "{winner} has sunk all opponent's ships!"
+  },
+  "mastermind": {
+    "command_description": "Play Mastermind against the bot.",
+    "play_command_description": "Start a new Mastermind game.",
+    "embed_title": "Mastermind Game",
+    "embed_description": "Welcome to Mastermind!\n\nTry to guess the **{{code_length}}-color code** in **{{max_attempts}}** attempts.\nClick color buttons to form your guess, then Submit.\nUse Remove Last if you made a mistake.\n\nColors:\n{{color_list}}",
+    "embed_footer": "Game started by {{user.name}}",
+    "game_progress_title": "Mastermind Progress",
+    "attempts_text": "Attempts: **{{current}} / {{max}}**",
+    "attempt_history": "**Attempt {{num}}:** {{guess}} => {{exact}} exact, {{color}} color",
+    "solved_message": "You **solved** the code!",
+    "game_over_message": "**Max attempts reached!** The secret code was: {{secret_code}}.",
+    "select_next_guess": "Select your next guess ({{code_length}} colors) and click Submit!",
+    "current_guess": "Current Guess",
+    "no_colors_selected": "No colors selected yet.",
+    "not_your_game": "This is not your Mastermind game!",
+    "max_colors_reached": "You already have {{code_length}} colors in your guess! Remove or submit first.",
+    "no_colors_to_remove": "You have no colors to remove!",
+    "confirm_button_label": "Submit",
+    "remove_button_label": "Remove Last",
+    "already_over": "The game is already over!",
+    "guess_incomplete": "You need exactly {{code_length}} colors in your guess!",
+    "attack_hit": "You hit a color in the wrong place!",
+    "attack_exact": "You got a color in the correct place!",
+    "attack_miss": "No matches for that selection.",
+    "attack_cancelled": "Attack cancelled.",
+    "game_over": "The game is over!"
+  }
+}

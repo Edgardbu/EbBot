@@ -1,0 +1,4 @@
+embed manager:
+  access role:
+  - 111111111111111111 # role id
+  - 222222222222222222 # can be multiple roles by adding more ids like this

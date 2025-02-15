@@ -1,0 +1,27 @@
+tictactoe:
+  embed:
+    color: '#00A4D1'
+minesweeper:
+  embed:
+    color: '#00A4D1'
+battleship:
+  embed:
+    color: '#00A4D1'
+  icons:
+    Ship: 🟢
+    Hit: 🔴
+    Miss: 🟣
+    Water: 🌊
+mastermind:
+  embed:
+    color: '#FF5733'
+  icons:
+    R: 🟥
+    B: 🟦
+    G: 🟩
+    Y: 🟨
+    P: 🟪
+    O: 🟧
+  settings:
+    code_length: 4
+    max_attempts: 10
