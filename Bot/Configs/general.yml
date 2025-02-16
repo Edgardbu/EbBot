@@ -1,3 +1,3 @@
 bot:
-  token: xxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx # Your bot token
+  token: "" # Your bot token | xxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   language: en # Bot language (en, ru, etc. should be in the langs folder or the bot will default to the default language of the package)
