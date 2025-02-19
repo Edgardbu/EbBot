@@ -4,7 +4,6 @@ audioop-lts
 ruamel.yaml
 flask
 flask-wtf
-git+https://github.com/jcrist/msgspec.git
 flask-session
 pyotp
 turbo-flask
