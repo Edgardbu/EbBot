@@ -11,6 +11,7 @@ import re
 import discord
 import colorama
 import ruamel.yaml
+import sqlite3
 
 
 #Global variables
@@ -81,6 +82,9 @@ class EbClient(discord.Client):
             print(colorama.Fore.GREEN + "[+] Finished running on_ready callbacks from your commands packages!")
         print(f"{colorama.Fore.GREEN}[+] Logged in as {colorama.Fore.MAGENTA}{self.user}")
         print(colorama.Fore.CYAN + "-" * 50)
+
+    async def close(self):
+        await super().close()
 
     async def shutdown(self):
         print(f"{colorama.Fore.RED}Shutting down the bot...")
@@ -185,6 +189,13 @@ def start_bot():
 
     print(colorama.Fore.GREEN + "[+] Loaded language files!")
     print(colorama.Fore.CYAN + "-" * 50)
+
+    #database loading
+    if not os.path.exists('data.db'):
+        print(colorama.Fore.RED + "[!] Warning: " + colorama.Fore.CYAN + "Database file not found! Creating a new one...")
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    print(colorama.Fore.GREEN + "[+] Connected to the database!")
     #command loading
     print(colorama.Fore.CYAN + "[-] Loading command packages...")
     temp = 0
@@ -204,29 +215,41 @@ def start_bot():
                             temp += 1
                             try:
                                 sig = inspect.signature(command)
-                                if len(sig.parameters) == 2:
-                                    command(tree, bot)
-                                elif len(sig.parameters) == 3:
-                                    if not module_name in CONFIG:
-                                        print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + f"{module_name} {colorama.Fore.RED}config file not found!")
-                                        print(colorama.Fore.RED + "Exiting...")
-                                        exit()
-                                    command(tree, bot, CONFIG[filename][module_name])
-                                elif len(sig.parameters) == 4:
-                                    if not filename in CONFIG:
-                                        print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + f"{filename}{colorama.Fore.RED} file config not found!")
-                                        print(colorama.Fore.RED + "Exiting...")
-                                        exit()
-                                    if not module_name in CONFIG[filename]:
-                                        print(f"{colorama.Fore.RED}Error: {colorama.Fore.CYAN}{filename}{colorama.Fore.RED} config has been found but {colorama.Fore.CYAN}{module_name}.py{colorama.Fore.RED} config not found!")
-                                        print(colorama.Fore.RED + "Exiting...")
-                                        exit()
-                                    command(tree, bot, CONFIG[filename][module_name], LANG[filename][module_name])
-                                else:
-                                    print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + "The 'init' function must have 2-4 arguments!")
+                                parametrs = []
+                                for param in sig.parameters:
+                                    match param:
+                                        case 'tree':
+                                            parametrs.append(tree)
+                                        case 'bot':
+                                            parametrs.append(bot)
+                                        case 'config':
+                                            if not filename in CONFIG:
+                                                print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + f"{filename}{colorama.Fore.RED} file config not found!")
+                                                print(colorama.Fore.RED + "Exiting...")
+                                                exit()
+                                            if not module_name in CONFIG[filename]:
+                                                print(f"{colorama.Fore.RED}Error: {colorama.Fore.CYAN}{filename}{colorama.Fore.RED} config has been found but {colorama.Fore.CYAN}{module_name}.py{colorama.Fore.RED} config not found!")
+                                                print(colorama.Fore.RED + "Exiting...")
+                                                exit()
+                                            parametrs.append(CONFIG[filename][module_name])
+                                        case 'lang':
+                                            if not filename in LANG:
+                                                print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + f"{filename}{colorama.Fore.RED} file lang not found!")
+                                                print(colorama.Fore.RED + "Exiting...")
+                                                exit()
+                                            if not module_name in LANG[filename]:
+                                                print(f"{colorama.Fore.RED}Error: {colorama.Fore.CYAN}{filename}{colorama.Fore.RED} lang has been found but {colorama.Fore.CYAN}{module_name}.py{colorama.Fore.RED} lang not found!")
+                                                print(colorama.Fore.RED + "Exiting...")
+                                                exit()
+                                            parametrs.append(LANG[filename][module_name])
+                                        case 'db':
+                                            parametrs.append(conn)
+                                if not parametrs:
+                                    print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + "The 'init' function must have at least one parameter!")
                                     print(colorama.Fore.RED + f"[!] Hint: The {file_path} probably corrupted!")
                                     print(colorama.Fore.RED + "Exiting...")
                                     exit()
+                                command(*parametrs)
                             except Exception as e:
                                 if isinstance(e, discord.app_commands.errors.CommandAlreadyRegistered):
                                     print(colorama.Fore.RED + "Error: " + colorama.Fore.CYAN + "one or more commands of your commands conflict!")

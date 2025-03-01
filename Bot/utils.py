@@ -4,7 +4,7 @@ import re
 import string
 
 
-def replace_variables(text: str, member: discord.Member = None, guild: discord.Guild = None) -> str:
+def replace_variables(text: str, member: discord.Member = None, guild: discord.Guild = None) -> str | None:
     """
     This function replaces the variables in the text with the actual values
     {{user}} - mention the user
@@ -21,6 +21,9 @@ def replace_variables(text: str, member: discord.Member = None, guild: discord.G
     :param guild: discord.Guild the guild to replace the variables with
     :return:
     """
+    if text is None:
+        return None
+
     if member is not None:
         text = text.replace("{{user}}", member.mention)
         text = text.replace("{{user.name}}", member.name)
