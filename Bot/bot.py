@@ -98,6 +98,13 @@ class EbClient(discord.Client):
         print(colorama.Fore.YELLOW + "[-] For the changes to take effect, You need to restart the bot!")
         print(colorama.Fore.CYAN + "-" * 50)
 
+    def load_specific_config(self, package: str, file:str):
+        global CONFIG
+        with open(f"Configs/{package}.yml", "r") as f:
+            yaml = ruamel.yaml.YAML()
+            CONFIG[package][file].clear() # Clear the current config without losing the reference
+            CONFIG[package][file].update(yaml.load(f)[file]) # Update the config with the new values
+
 
 bot = EbClient()
 tree = discord.app_commands.CommandTree(bot)
