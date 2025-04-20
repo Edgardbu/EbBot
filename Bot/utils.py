@@ -2,6 +2,7 @@ import discord
 from discord.ext.commands import IDConverter, EmojiNotFound
 import re
 import string
+from ruamel.yaml import YAML
 
 
 def replace_variables(text: str, member: discord.Member = None, guild: discord.Guild = None) -> str | None:
