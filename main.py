@@ -7,12 +7,13 @@ import pyotp
 import os
 import datetime
 import ruamel.yaml
-from turbo_flask import Turbo
+import jinja2
 import psutil
 import logging
 import subprocess
 import pathlib
-import random
+import importlib.util
+from extensions import turbo
 
 class App(flask.Flask):
     def __init__(self, *args, **kwargs):
@@ -36,7 +37,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 #logging.basicConfig(filename='error.log', level=logging.NOTSET)
 
 
-turbo = Turbo(app)
+turbo.init_app(app)
 totp = pyotp.TOTP(pyotp.random_base32())
 
 
@@ -55,10 +56,22 @@ def get_allowed_users():
     return [str(user) for user in loaded_yaml.get('allowed_users', [])]
 
 
-
 @app.before_request
 def make_session_permanent():
     session.permanent = True
+
+
+@app.context_processor
+def inject_sidebar_items():
+    default_items = [
+        {"label": "Dashboard", "url": "/dashboard", "icon": "fas fa-tachometer-alt"},
+        {"label": "Configs", "url": "/configs", "icon": "fas fa-pencil-square-o"},
+        {"label": "Languages", "url": "/languages", "icon": "fas fa-language"},
+        {"label": "Allowed Users", "url": "/allowed_users", "icon": "fas fa-user-shield"},
+    ]
+    extra = app.config.get("EXTRA_SIDEBAR_ITEMS", [])
+    return {"sidebar_items": default_items + extra}
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -315,7 +328,6 @@ document.querySelector(".button-container").addEventListener("click", function(e
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'otp_verified' in session and session['otp_verified']:
-        # update the css and js files and render the ind
         return flask.render_template('index.html', console_content=app.server_console if app.server_console else [])
     return flask.redirect(flask.url_for('login'))
 
@@ -630,7 +642,6 @@ def logout():
     return flask.redirect(flask.url_for('login'))
 
 
-
 def console_colors_into_span(text: str):
     final_text = ""
     result = ""
@@ -686,6 +697,49 @@ def console_colors_into_span_r(text: str):
         return COLORS[color_code].replace("text", pure_text)
     return COLORS['37'].replace("text", pure_text)
 
+def register_package_routes(app): # Register web routes for each package if there is a web folder (Beta)
+    """
+    Flask blueprint by default does not support prefixing the template loader with the package name.
+    In this case I think package should be able naming there file somthing like 'index.html' so I used the jinja_loader to register them manually rather using the builtin functionality of blueprint.
+    :param app: Flask app instance
+    :return: None
+    """
+    prefix_loaders = {}
+    commands_path = os.path.join('Bot', 'Commands')
+    for package in os.listdir(commands_path):
+        package_path = os.path.join(commands_path, package)
+        web_path = os.path.join(package_path, 'web', 'routes.py')
+        templates_path = os.path.join(package_path, 'web', 'templates')
+
+        if os.path.isfile(web_path): # Register blueprint if routes.py exists
+            try:
+                module_name = f"{package}_routes"
+                spec = importlib.util.spec_from_file_location(module_name, web_path)
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+
+                if hasattr(module, 'blueprint'):
+                    app.register_blueprint(module.blueprint, url_prefix=f"/{package}")
+                    print(f"[+] Registered web routes for package: {package}")
+                if hasattr(module, "get_sidebar_item"):
+                    item = module.get_sidebar_item()
+                    if isinstance(item, dict):
+                        app.config.setdefault("EXTRA_SIDEBAR_ITEMS", [])
+                        app.config["EXTRA_SIDEBAR_ITEMS"].append(item)
+            except Exception as e:
+                print(f"[!] Failed to register web route for {package}: {e}")
+
+        if os.path.isdir(templates_path): # Register template loader if templates exist
+            prefix_loaders[package] = jinja2.FileSystemLoader(templates_path)
+            print(f"[+] Registered templates for package: {package}")
+
+    if prefix_loaders: # Merge into Flask's template loader
+        if not isinstance(app.jinja_loader, jinja2.ChoiceLoader):
+            app.jinja_loader = jinja2.ChoiceLoader([app.jinja_loader])
+        app.jinja_loader.loaders.append(jinja2.PrefixLoader(prefix_loaders))
+
+
 
 if __name__ == '__main__':
+    register_package_routes(app) #This is beta feature, if errors occur, please report them to the developer and add # to the start of this line
     app.run(debug=False, host='0.0.0.0', port=None)

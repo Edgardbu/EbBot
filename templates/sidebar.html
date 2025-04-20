@@ -11,35 +11,17 @@
             <div class="sidebar-brand-text mx-3"><span>Eb bot</span></div>
         </a>
         <hr class="sidebar-divider my-0">
-        <ul class="navbar-nav text-light" id="accordionSidebar">
+        <ul class="navbar-nav text-light" id="accordionSidebar" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+            {% for item in sidebar_items %}
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/dashboard' %}active{% endif %}" href="/dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                    <span id="bot-status-indicator" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: {{ 'green' if bot_running else 'red' }}; margin-left: 8px;"></span>
+                <a class="nav-link {% if request.path.startswith(item.url) %}active{% endif %}" href="{{ item.url }}">
+                    <i class="{{ item.icon }}"></i>
+                    <span>{{ item.label }}</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.path == '/configs' %}active{% endif %}" href="/configs">
-                    <i class="fas fa-pencil-square-o"></i>
-                    <span>Configs</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.path == '/languages' %}active{% endif %}" href="/languages">
-                    <i class="fas fa-language"></i>
-                    <span>Languages</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.path == '/allowed_users' %}active{% endif %}" href="/allowed_users">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Allowed Users</span>
-                </a>
-            </li>
-            <!-- Add more navigation items as needed -->
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">
+            {% endfor %}
+            <li class="nav-item" data-turbo="false">
+                <a class="nav-link" href="/logout" data-turbo-preload="false">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
