@@ -435,6 +435,8 @@ def tick1console():
                     if not app.bot_running:
                         break
                     line_to_add = console_colors_into_span(line)
+                    if line_to_add == '<span style="color: white;"></span>':
+                        break
                     app.server_console.append(line_to_add)
                     turbo.push(turbo.append(line_to_add + '\n', 'console-content-pre'))
                     if line_to_add == '<span style="color: red;">Shutting down the bot...</span>' or  line_to_add == '<span style="color: white;">Shutting down the bot...</span>':
