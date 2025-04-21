@@ -116,5 +116,21 @@ class EmojiConverter(IDConverter[discord.Emoji]):
         return result
 
 
-
-
+class colorama_fix:
+    class Fore:
+        BLACK = '<[BLACK]>'
+        RED = '<[RED]>'
+        GREEN = '<[GREEN]>'
+        YELLOW = '<[YELLOW]>'
+        BLUE = '<[BLUE]>'
+        MAGENTA = '<[MAGENTA]>'
+        CYAN = '<[CYAN]>'
+        WHITE = '<[WHITE]>'
+        LIGHTBLACK_EX = '<[LIGHTBLACK]>'
+        LIGHTRED_EX = '<[LIGHTRED]>'
+        LIGHTGREEN_EX = '<[LIGHTGREEN]>'
+        LIGHTYELLOW_EX = '<[LIGHTYELLOW]>'
+        LIGHTBLUE_EX = '<[LIGHTBLUE]>'
+        LIGHTMAGENTA_EX = '<[LIGHTMAGENTA]>'
+        LIGHTCYAN_EX = '<[LIGHTCYAN]>'
+        LIGHTWHITE_EX = '<[LIGHTWHITE]>'
