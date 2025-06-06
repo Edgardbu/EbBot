@@ -655,7 +655,7 @@ def console_colors_into_span(text: str):
             if text.endswith("</span>"):
                 text = text[:-7]
                 start += "</span>"
-                final_text += start
+            final_text += start
         result = console_colors_into_span_r(text)
         text = result
     if result == "":
